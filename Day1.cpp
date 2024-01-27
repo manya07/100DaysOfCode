@@ -26,20 +26,20 @@ text1 and text2 consist of only lowercase English characters.*/
 
 //Solution
 
-int longestCommonSubsequence(string text1, string text2) {
-      int n=text1.length();
-      int m=text2.length();
-      vector<vector<int>> dp(n+1,vector<int>(m+1,0));
-      dp[0][0]=0;
-      for(int i=1;i<=n;i++){
-          for(int j=1;j<=m;j++){
-              if(text1[i-1]==text2[j-1]){
-                  dp[i][j]=1+dp[i-1][j-1];
-              }
-              else{
-                  dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-              }
-          }
-      }
-      return dp[n][m];
+class Solution {
+ public:
+  int longestCommonSubsequence(string text1, string text2) {
+    const int m = text1.length();
+    const int n = text2.length();
+    // dp[i][j] := the length of LCS(text1[0..i), text2[0..j))
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        dp[i + 1][j + 1] = text1[i] == text2[j]
+                               ? 1 + dp[i][j]
+                               : max(dp[i][j + 1], dp[i + 1][j]);
+
+    return dp[m][n];
   }
+};
